@@ -15,7 +15,30 @@
 </header>
 <body>
   <main>
-    
+    <h1> Page de commande </h1>
+    <form action="confirmation.html">
+      <p> Veuillez compléter le formulaire ci-dessous. </p>
+      <fieldset>
+        <legend> Contact </legend>
+          <label for="prenom"> Prénom </label> <em>*</em> <input id=firstname placeholder="Martin" required> <br>
+          <label for="nom"> Nom </label> <em>*</em><input id=lastname placeholder="Dupont" required> <br>
+          <label for="email"> Email </label> <em>*</em> <input id=email type="email" placeholder="martin.dupont@polymtl.ca" required> <br>
+          <label for="tel"> Numéro de téléphone </label> <em></em>
+                  <input id=phone type="tel"
+                  placeholder="(xxx)xxx-xxxx"
+                  pattern="\([0-9]{3}\)[0-9]{3}-[0-9]{4}"> <br>
+      </fieldset>
+      <fieldset>
+        <legend> Paiement </legend>
+          <label for="numcreditcard"> Numéro de carte de crédit </label> <em>*</em>
+                  <input id=creditcard
+                  placeholder="xxxx-xxxx-xxxx-xxxx"
+                  pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"> <br>
+          <label for="dateexpcreditcard"> Date d'expiration de la carte </label> <em>*</em>
+                  <input id=creditcardexpiry type="date" required> <br>
+      </fieldset>
+      <p><input type="submit" value="Payer"></p>
+    </form>
   </main>
 </body>
 <footer>
