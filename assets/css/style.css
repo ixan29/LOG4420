@@ -1,0 +1,135 @@
+/* style pour l'entete */
+header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #334185;
+    color: white;
+    padding-bottom: 60px;
+}
+
+/* style pour le logo dans l'entete */
+header img {
+    float: left;
+    height: 20pt;
+    vertical-align: middle;
+    padding-left: 20px;
+}
+
+/* style pour le menu dans l'entete */
+header nav {
+    float: right;
+    padding-right: 20px;
+}
+
+/* style pour les liens dans le menu de l'entete */
+header nav a {
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* style pour le logo du panier d'achat dans le menu de l'entete */
+.shopping-cart {
+    color: #334185;
+}
+
+/* style specifiant le nombre d'elements dans le panier d'achat de l'entete */
+.count {
+    background-color: red;
+    color: white;
+}
+
+/* applique les padding pour le contenu principal comme demande dans les instructions*/
+main {
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* style pour le pied de page */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgray;
+    text-align: center;
+}
+
+/*style pour l'image home.png dans index.html*/
+.home-img {
+    float: right;
+    height: 300px;
+}
+
+/*style pour le bouton "En savoir plus" dans index.html*/
+.btn-find-out {
+    background-color: #334185;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+/*style pour le bouton "En savoir plus" lorsque la souris flotte au dessus*/
+.btn-find-out:hover {
+    background-color: #4f65d1;
+}
+
+/* Style pour le div parent contenant les 3 divs enfants horizontaux dans contact.html */
+.contact-parent-block {
+    border: 3px solid gray;
+    padding-bottom: 120pt;
+}
+
+/* Style pour les divs enfants horizontaux dans contact.html */
+.contact-child-block {
+    padding-top: 20pt;
+    width: 33%;
+    float: left;
+    text-align: center;
+}
+
+/* Style pour les icones contenues dans les divs enfants dans contact.html */
+.contact-child-block i {
+    font-size: 400%;
+}
+
+/* style pour une colonne dans order.html */
+.order-child-block {
+    width: 48%;
+    float: left;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+/* style pour le bouton "Payer" dans order.html */
+.btn-pay {
+    background-color: #334185;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    float: right;
+    font-size: 16px;
+}
+
+/* style pour le bouton "Payer" dans order.html lorsque la souris est au dessus */
+.btn-pay:hover {
+    background-color: #4f65d1;
+}
+
+/* style pour les input dans order.html */
+.order-input {
+    width:100%;
+    height:20px;
+}
