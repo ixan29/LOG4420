@@ -133,3 +133,170 @@ footer {
     width:100%;
     height:20px;
 }
+
+
+/* antoine */
+
+/******SHOPPING-CART******/
+
+/* style pour le tableau dans shopping-cart.html */
+table {
+	border:none;
+}
+
+/* style pour les première et dernière lignes du tableau dans shopping-cart.html */
+th, .last {
+	border-bottom: 1px solid;
+}
+
+
+/* padding pour aérer */
+th, td {
+	padding: 15px;
+	font-size: 30px;
+}
+
+/* limite de la largeur de la première colonne à 30px */
+th:first-child, td:first-child {
+	width:30px;
+}
+
+/* aligner élément dernière colonne à droite */
+th:last-child, td:last-child {
+	text-align: right;
+	padding : 0px 100px;
+}
+
+/* style des boutons dans le tableau du shopping-cart */
+.shop-cart-button {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	background-color:#dddddd;
+}
+
+/* style des boutons survolés par la sourir dans le tableau du shopping-cart */
+.shop-cart-button:hover {
+	background-color:#bbbbbb;
+}
+
+
+/* alignement du prix total et du lien pour commander */
+#div-prix-commander {
+	position:relative;
+	float:right;
+}
+
+/* alignement du bouton pour vider le panier */
+#div-vider-panier {
+	position:relative;
+	float:left;
+}
+
+
+
+/******PRODUCT******/
+
+/* div parent pour organiser les colonnes */
+#div-parent-produit {
+	padding-bottom: 120pt;
+}
+
+/* divs enfants de largeur 50% */
+#div-child-produit {
+	padding-top: 20pt;
+    width: 50%;
+    float: left;
+    text-align: left;
+}
+
+
+#div-prix-formulaire {
+	border-top: 1px dashed gray;
+}
+
+/* on aligne le prix du produit à gauche, on ajoute la bordure en pointillé */
+#prix-produit {
+	position:relative;
+	float:left;
+}
+
+/* on aligne le formulaire à gauche */
+#div-formulaire {
+	position:relative;
+	float:right;
+}
+
+/* style du formulaire dans product.html */
+.form-control {
+	border:1px solid #999999;
+	border-radius: 4px;
+}
+
+
+
+/******PRODUCTS******/
+
+/* on met les boutons à gauche */
+#aside-produits {
+	padding-top: 20pt;
+    width: 25%;
+    float: left;
+    text-align: left;
+}
+/* div contenant les produits */
+#div-child-produits {
+	padding-top: 20pt;
+    width: 75%;
+    float: right;
+    text-align: left;
+}
+
+/* style pour boutons avec effet ease out */
+.btn-group-produits button {
+  border: 1px solid #999999;
+  padding: 10px 20px;
+  width: 60%;
+  display: block;
+  transition: 0.2s;
+  border-radius: 4px;
+}
+
+.btn-group-produits button:not(:last-child) {
+  border-bottom: none;
+}
+
+.selected:hover {
+    background-color: #f3f3f3;
+}
+
+.selected:focus {
+    background-color: #ddf2fb;
+}
+
+#div-produits{
+	padding-bottom: 120pt;
+}
+
+#div-produits a {
+	display:inline-block;
+	width:32%;
+	border:1px solid #999999;
+	transition: 0.2s;
+	border-radius: 4px;
+}
+
+#div-produits a:hover {
+	background-color: #f3f3f3;
+}
+
+.prix-produits{
+	position:relative;
+	float:right;
+}
+
+.img-list-produits {
+	height:180px;
+	width:180px;
+}
+
