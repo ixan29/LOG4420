@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -22,59 +22,64 @@
   </nav>
 </header>
 <body>
-  <table border=2>
-     <tr>
-        <td></button></td>
-        <td>Nom</td>
-        <td>Prix unitaire</td>
-        <td>Quantité</td>
-        <td>Prix</td>
+<main>
+  <table>
+     <tr class="first">
+        <th></button></th>
+        <th>Nom</th>
+        <th>Prix unitaire</t>
+        <th>Quantité</th>
+        <th>Prix</th>
      </tr>
      <tr>
-         <td><button id="closeButton">x</td>
+         <td><button class="shop-cart-button">x</td>
          <td><a href= product.html>Apple TV</a></td>
          <td>249.99 $</td>
          <td>
 			<div class="input-group-button">
-				<button type="button" class="btn" data-quantity="minus">-</button>
+				<button type="button" class="shop-cart-button" data-quantity="minus">-</button>
 				<input class="input" type="number" name="quantity" value="1" min="1">
-				<button type="button" class="btn" data-quantity="plus">+</button>
+				<button type="button" class="shop-cart-button" data-quantity="plus">+</button>
 			</div>
 		 </td>
          <td>249.99 $</td>
      </tr>
      <tr>
-         <td><button id="closeButton">x</td>
+         <td><button class="shop-cart-button">x</td>
          <td><a href= product.html>Canon EOS 5D Mark II</a></td>
          <td>2999.99 $</td>
           <td>
 			  <div class="input-group-button">
-				<button type="button" class="btn" data-quantity="minus">-</button>
+				<button type="button" class="shop-cart-button" data-quantity="minus">-</button>
 				<input class="input" type="number" name="quantity" value="1" min="1">
-				<button type="button" class="btn" data-quantity="plus">+</button>
+				<button type="button" class="shop-cart-button" data-quantity="plus">+</button>
 			  </div>
 		 </td>
          <td>2999.99 $</td>
      </tr>
      <tr>
-         <td><button id="closeButton">x</td>
-         <td><a href= product.html>Nikon D7000</a></td>
-         <td>549.99 $</td>
-         <td>
+         <td class = "last"><button class="shop-cart-button">x</td>
+         <td class = "last"><a href= product.html>Nikon D7000</a></td>
+         <td class = "last">549.99 $</td>
+         <td class = "last">
 			<div class="input-group-button">
-				<button type="button" class="btn" data-quantity="minus">-</button>
+				<button type="button" class="shop-cart-button" data-quantity="minus">-</button>
 				<input class="input" type="number" name="quantity" value="1" min="1">
-				<button type="button" class="btn" data-quantity="plus">+</button>
+				<button type="button" class="shop-cart-button" data-quantity="plus">+</button>
 			</div>
 		 </td>
-         <td>549.99 $</td>
+         <td class = "last">549.99 $</td>
      </tr>
   </table>
-  <p> Total : 3 799,97 $ </p>
-  <p> 
-	<button>Vider le panier</button>
-	<a href= order.html>Commander</a>
-  </p>
+  <div id="div-prix-commander">
+	  <p> Total : 3 799,97 $ </p>
+	  <a href= order.html>Commander</a>
+
+  </div>
+  <div id="div-vider-panier">
+	  <button>Vider le panier</button>
+  </div>
+  </main>
 </body>
 <footer>
   <p>
