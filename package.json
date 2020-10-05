@@ -4,7 +4,7 @@
   "description": "tp3 of the log4420 class, from polytechnique, montréal",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "./node_modules/.bin/gulp",
+    "start": "node express.js",
     "e2e": "nightwatch --config ./tests/nightwatch.json"
   },
   "author": "Antoine Béland, Konstantinos Lambrou-Latreille, Félix Brunet",

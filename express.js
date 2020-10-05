@@ -1,3 +1,8 @@
+/*
+Code pour le serveur
+*/
+
+//initialiser les variables requises
 var express = require('express');
 let bodyParser = require("body-parser");
 let cors = require("cors");
@@ -7,17 +12,24 @@ app.use(cors());
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.json());
 
+//Permet d'acceder a n'importe quel fichier qui se trouve dans la meme destination
+//que le fichier express.js, notamment les html, les js, le css et les images.
+//Cest pas super securitaire mais ca fait le boulot temporairement
 app.use(express.static('./'));
 
+//Recueillir les produits contenus dans le fichier products.json
 var fs = require('fs');
 var products = JSON.parse(fs.readFileSync('./data/products.json', 'utf8'));
 
+//Requete pour obtenir tous les produits
 app.get('/getProducts', function (req, res) {
    res.json(products);
 });
 
+//Requete pour obtenir 1 produit en fonction du id ecrit dans le query
 app.get('/getProduct', function (req, res) {
 
+   //Si l'id n'existe pas dans le query, envoyer un message d'erreur
    if(req.query.id == undefined)
    {
       res.json({
@@ -43,67 +55,7 @@ app.get('/getProduct', function (req, res) {
    });
 });
 
-/*
-let shoppingCart = [];
-
-app.get('/getShoppingCart', function(req, res) {
-   res.json(shoppingCart);
-});
-
-app.post('/emptyShoppingCart', function(req, res) {
-   shoppingCart = [];
-   res.json({
-      log: "the shopping cart has been emptied"
-   });
-});
-
-app.post('/setShoppingCartProductQuantity', urlencodedParser, function(req, res) {
-
-   if(!Number.isInteger(req.body.id))
-   {
-      res.json({
-         err: "Error at setProductQuantity: the request json body must have an id attribute that has an integer value"
-      });
-      return;
-   }
-
-
-   if(!Number.isInteger(req.body.quantity))
-   {
-      res.json({
-         err: "Error at setProductQuantity: the request json body must have a quantity attribute that has an integer value"
-      });
-      return;
-   }
-
-   var id = Number.parseInt(req.body.id);
-   var quantity = Number.parseInt(req.body.quantity);
-
-   (function()
-   {
-      for(var idx=0 ; idx<shoppingCart.length ; idx++)
-      {
-         if(shoppingCart[idx].id === id)
-         {
-            shoppingCart[idx].quantity = quantity;
-            return;
-         }
-      }
-
-      shoppingCart.push({
-         id,
-         quantity
-      });
-   })();
-
-   shoppingCart = shoppingCart.filter(function(productQt) {
-      return productQt.quantity > 0;
-   });
-
-   res.send("updated");
-});
-*/
-
+//Demarrer le serveur
 app.listen(8000, function () {
    console.log("Le serveur est demarre");
 });

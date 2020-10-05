@@ -1,60 +1,50 @@
 
-function init() {
+//Initialise la page du produit
+const initProduct = async() =>
+{
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
-    fetch("http://localhost:8000/getProduct?id="+id)
-    .then((response) => response.json())
-    .then((product) => {
+    //faire une requete au serveur pour obtenir le produit
+    const product = await (await fetch("http://localhost:8000/getProduct?id="+id)).json();
 
-        if(product.id === undefined)
+    //Signaler si jamais le produit n'a pas ete trouve
+    if(product.id === undefined)
+    {
+        $("main").text("");
+        $("main").append("<h1>Page non trouvée!</h1>");
+        return;
+    }
+
+    //Modifier les champs necessaires(titre, image, description)
+    $("#product-title").append(product.name);
+    $("#img-product").attr("src","assets/img/"+product.image);
+    $("#img-product").attr("alt",product.name);
+    $("#product-description").append(product.description);
+
+    //Ajouter la liste des characteristiques
+    for(var idx=0 ; idx<product.features.length ; idx++)
+    {
+        var featureBody =
         {
-            $("main").text("Erreur 404. Aucun produit n'a été trouvé avec l'identifiant fourni");
-            return;
-        }
+            element: "li",
+            content: product.features[idx]
+        };
 
-        $("#product-title").append(product.name);
-        $("#img-product").attr("src","assets/img/"+product.image);
-        $("#img-product").attr("alt",product.name);
+        $("#product-features").append(parseJsonToHtml(featureBody));
+    }
 
-        $("#product-description").append(product.description);
+    //Ecrire le prix du produit
+    $('#product-price').append("Prix: " + product.price);
 
-        for(var idx=0 ; idx<product.features.length ; idx++)
-        {
-            var featureBody =
-            {
-                element: "li",
-                content: product.features[idx]
-            };
-
-            $("#product-features").append(parseJsonToHtml(featureBody));
-        }
-
-        $('#product-price').append("Prix: " + product.price);
-    });
-
+    //Ajoute un evenement au bouton "ajouter au panier"
     $("#btn-add-to-cart").on("click", function() {
 
         setShoppingCartProductQuantity(Number.parseInt(id), Number.parseInt($("#input-product-quantity").val()));
+
+        //TODO creer un toast comme demande dans les consignes
         window.location.href = "./shopping-cart.html";
-
-        /*
-        const opts = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(
-            {
-                "id": Number.parseInt(id),
-                quantity: Number.parseInt($("#input-product-quantity").val())
-            }),
-        };
-
-        fetch("http://localhost:8000/setShoppingCartProductQuantity", opts)
-        .then(() => {
-            window.location.href = "./shopping-cart.html";
-        });
-        */
     });
 }
 
-window.addEventListener("load",init,false);
+window.addEventListener("load",initProduct,false);
