@@ -213,7 +213,7 @@ th:last-child, td:last-child {
 }
 
 /* alignement du bouton pour vider le panier */
-#div-vider-panier {
+#btn-vider-panier {
 	position:relative;
 	float:left;
 }

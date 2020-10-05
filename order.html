@@ -17,7 +17,7 @@
       <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
       <i class="fa fa-shopping-cart fa-stack-1x"></i>
       </span>
-      <span class="count">3</span>
+      <span class="count" id="shopping-cart-badge"></span>
     </a> 
   </nav>
 </header>
@@ -37,7 +37,7 @@
           <label for="nom"> <b>Nom</b> </label> <br>
           <input class="order-input" id=lastname placeholder="Nom" required> <br> <br>
           <label for="tel"> <b>Numéro de téléphone</b> </label> <em></em> <br>
-          <input class="order-input" id=phone type="tel" placeholder="###-###-####" pattern="\([0-9]{3}\)[0-9]{3}-[0-9]{4}">
+          <input class="order-input" id=phone type="tel" placeholder="###-###-####" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
         </div>
         <br>
         <br>
@@ -70,5 +70,8 @@
       Antoine Balayssac 2034797<br>
     </p>
   </footer>
+
+  <script type="text/javascript" src="./assets/js/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="./assets/js/shoppingCartBadge.js"></script>
 </body>
 </html>
