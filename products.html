@@ -28,31 +28,31 @@
         <h1>Catégories</h1>
         <div
           class="btn-group-produits"
-          id="productcategories"
+          id="product-categories"
         >
-          <button class="selected">Appareils photo</button>
-          <button class="selected">Consoles</button>
-          <button class="selected">Écrans</button>
-          <button class="selected">Ordinateurs</button>
-          <button class="selected">Tous les produits</button>
+          <button class="btn-products" id="btn-categ-cameras">Appareils photo</button>
+          <button class="btn-products" id="btn-categ-consoles">Consoles</button>
+          <button class="btn-products" id="btn-categ-screens">Écrans</button>
+          <button class="btn-products" id="btn-categ-computers">Ordinateurs</button>
+          <button class="btn-products selected" id="btn-categ-all">Tous les produits</button>
         </div>
 
         <h1>Classement</h1>
         <div
           class="btn-group-produits"
-          id="productcriteria"
+          id="product-criteria"
         >
-          <button class="selected">Prix (bas-haut)</button>
-          <button class="selected">Nom (A-Z)</button>
-          <button class="selected">Nom (Z-A)</button>
+          <button class="btn-products selected" id="btn-order-price">Prix (bas-haut)</button>
+          <button class="btn-products" id="btn-order-alpha">Nom (A-Z)</button>
+          <button class="btn-products" id="btn-order-alpha-reverse">Nom (Z-A)</button>
         </div>
 
       </aside>
 
     <div id="div-child-produits">
       <h1>Produits</h1>
-      <p id="num-produits"></p> <!--Le nombre de produits va etre ecrit ici-->
-      <div id="div-produits">
+      <p id="products-count"></p> <!--Le nombre de produits va etre ecrit ici-->
+      <div id="products-list">
         <!--Les produits vont venir ici-->
       </div>
     </div>

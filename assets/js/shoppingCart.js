@@ -1,9 +1,18 @@
 //Initialise la table des achats
 const initShoppingCartTable = async() =>
 {
+    //Recueillir la liste d'epicerie
+    const shoppingCart = getShoppingCart();
+
+    if(shoppingCart.length === 0)
+    {
+        $("#rest-main").text("Aucun produit dans le panier d'achat");
+        return;
+    }
+
     //Initialiser les elements html impliques
     $("#shopping-cart-table").text("");
-    $("#shopping-cart-total").text("");
+    $("#total-amount").text("");
 
     //Representation html des titres de la table
     const titleBody = {
@@ -35,22 +44,32 @@ const initShoppingCartTable = async() =>
     //Ajouter les titres dans la table
     $("#shopping-cart-table").append(parseJsonToHtml(titleBody));
 
-    //Recueillir la liste d'epicerie
-    const shoppingCart = getShoppingCart();
-
     //Utilise pour calculer le prix total de l'epicerie
     var total = 0;
 
-    //Pour chaque achat
+    var products = [];
+    
     for(var idx=0 ; idx<shoppingCart.length ; idx++)
     {
-        var shoppingProduct = shoppingCart[idx];
+        var product = await (await fetch("http://localhost:8000/getProduct?id="+shoppingCart[idx].id)).json();
+        product.quantity = shoppingCart[idx].quantity;
+        products.push(product);
+    };
 
-        //Faire une requete pour obtenir le produit implique
-        const product = await (await fetch("http://localhost:8000/getProduct?id="+shoppingProduct.id)).json();
+    products = products.sort((a, b) => {
+        if(a.name < b.name)
+            return -1;
+
+        if(a.name > b.name)
+            return 1;
+
+        return 0;
+    });
+
+    products.forEach(async (product) => {
 
         //Additionner le prix du produit(prixUnitaire*quantite) au total
-        total += product.price * shoppingProduct.quantity;
+        total += product.price * product.quantity;
 
         //Reprensentation html de la range du produit dans la table
         const productBody =
@@ -61,9 +80,9 @@ const initShoppingCartTable = async() =>
                     element: "td",
                     content: {
                         element: "button",
-                        class: "shop-cart-button",
-                        id: "btn-rm-product-"+product.id, //Ce id va etre utilise pour lien une function lorsque appuye
-                        content: "x"
+                        class: "shop-cart-button remove-item-button",
+                        id: "btn-rm-product-"+product.id, //Ce id va etre utilise pour lier une function lorsque appuye
+                        content: "✕"
                     }
                 },
                 {
@@ -78,6 +97,7 @@ const initShoppingCartTable = async() =>
                 {
                     //Prix unitaire
                     element: "td",
+                    class: "price",
                     content: product.price + " $"
                 },
                 {
@@ -91,9 +111,9 @@ const initShoppingCartTable = async() =>
                                 //bouton pour decrementer la quantite
                                 element: "button",
                                 type: "button",
-                                class: "shop-cart-button",
+                                class: "shop-cart-button remove-quantity-button",
                                 "data-quantity": "minus",
-                                id: "btn-decrement-product-"+product.id, //Ce id va etre utilise pour lien une function lorsque appuye
+                                id: "btn-decrement-product-"+product.id, //Ce id va etre utilise pour lier une function lorsque appuye
                                 content: "-"
                             },
                             {
@@ -102,17 +122,17 @@ const initShoppingCartTable = async() =>
                                 class: "form-control",
                                 type: "number",
                                 name: "quantity",
-                                value: shoppingProduct.quantity,
+                                value: product.quantity,
                                 min: "1",
-                                id: "input-product-"+product.id //Ce id va etre utilise pour lien une function lorsque modifie
+                                id: "input-product-"+product.id //Ce id va etre utilise pour lier une function lorsque modifie
                             },
                             {
                                 //bouton pour incrementer la quantite
                                 element: "button",
                                 type: "button",
-                                class: "shop-cart-button",
+                                class: "shop-cart-button add-quantity-button",
                                 "data-quantity": "plus",
-                                id: "btn-increment-product-"+product.id, //Ce id va etre utilise pour lien une function lorsque appuye
+                                id: "btn-increment-product-"+product.id, //Ce id va etre utilise pour lier une function lorsque appuye
                                 content: "+"
                             }
                         ]
@@ -121,7 +141,7 @@ const initShoppingCartTable = async() =>
                 {
                     //Affiche le prix du produit (prixUnitaire*quantite)
                     element: "td",
-                    content: product.price * shoppingProduct.quantity + " $"
+                    content: product.price * product.quantity + " $"
                 }
             ]
         }
@@ -173,14 +193,17 @@ const initShoppingCartTable = async() =>
         //Evenement pour le bouton de suppression de produit mettant a jour la quantite du produit
         $("#btn-rm-product-"+product.id).on("click", () =>
         {
-            setShoppingCartProductQuantity(product.id, 0);
-            initShoppingCartBadge();
-            initShoppingCartTable();
+            if(confirm("Voulez-vous supprimer le produit du panier?"))
+            {
+                setShoppingCartProductQuantity(product.id, 0);
+                initShoppingCartBadge();
+                initShoppingCartTable();
+            }
         });
-    }
+    });
 
     //Afficher le prix total de la liste d'epicerie
-    $("#shopping-cart-total").append("Total : "+total+" $");
+    $("#total-amount").append("Total : "+total+" $");
 }
 
 //Initialise la page de la liste d'epicerie
@@ -190,16 +213,19 @@ const initShoppingCart = async() =>
     await initShoppingCartTable();
 
     //Evenement pour le bouton qui vide le panier
-    $("#btn-vider-panier").on("click", async() =>
+    $("#remove-all-items-button").on("click", async() =>
     {
-        const opts = {
-            method: "POST"
-        };
-
-        await fetch("http://localhost:8000/emptyShoppingCart", opts);
-
-        initShoppingCartBadge();
-        initShoppingCartTable();
+        if(getShoppingCart().length === 0)
+        {
+            alert("Le panier est vide!");
+        }
+        else
+        if(confirm("Voulez-vous vraiment vider le panier?"))
+        {
+            clearShoppingCart();
+            initShoppingCartBadge();
+            initShoppingCartTable();
+        }
     });
 }
 

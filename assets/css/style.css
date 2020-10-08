@@ -275,7 +275,7 @@ th:last-child, td:last-child {
 }
 
 /* style pour boutons avec effet ease out */
-.btn-group-produits button {
+.btn-products {
   border: 1px solid #999999;
   padding: 10px 20px;
   width: 60%;
@@ -288,19 +288,19 @@ th:last-child, td:last-child {
   border-bottom: none;
 }
 
-.selected:hover {
+.btn-products:hover {
     background-color: #f3f3f3;
 }
 
-.selected:focus {
+.btn-products.selected {
     background-color: #ddf2fb;
 }
 
-#div-produits{
+#products-list{
 	padding-bottom: 120pt;
 }
 
-#div-produits a {
+#products-list a {
 	display:inline-block;
 	width:32%;
 	border:1px solid #999999;
@@ -308,7 +308,7 @@ th:last-child, td:last-child {
 	border-radius: 4px;
 }
 
-#div-produits a:hover {
+#products-list a:hover {
 	background-color: #f3f3f3;
 }
 
@@ -320,4 +320,35 @@ th:last-child, td:last-child {
 .img-list-produits {
 	height:180px;
 	width:180px;
+}
+
+.invisible {
+    display: none;
+    visibility: hidden;
+}
+
+.toast {
+    visibility: visible;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
 }

@@ -1,4 +1,11 @@
 
+//Demarre l'animation toast du dialogue
+const toastDialog = () => {
+    $("#dialog").attr("class", "toast");
+
+    setTimeout( () => $("#dialog").attr("class", "invisible"), 3000);
+}
+
 //Initialise la page du produit
 const initProduct = async() =>
 {
@@ -17,10 +24,10 @@ const initProduct = async() =>
     }
 
     //Modifier les champs necessaires(titre, image, description)
-    $("#product-title").append(product.name);
-    $("#img-product").attr("src","assets/img/"+product.image);
-    $("#img-product").attr("alt",product.name);
-    $("#product-description").append(product.description);
+    $("#product-name").append(product.name);
+    $("#product-image").attr("src","assets/img/"+product.image);
+    $("#product-image").attr("alt",product.name);
+    $("#product-desc").append(product.description);
 
     //Ajouter la liste des characteristiques
     for(var idx=0 ; idx<product.features.length ; idx++)
@@ -38,12 +45,11 @@ const initProduct = async() =>
     $('#product-price').append("Prix: " + product.price);
 
     //Ajoute un evenement au bouton "ajouter au panier"
-    $("#btn-add-to-cart").on("click", function() {
+    $("#add-to-cart-form").on("click", function() {
 
         setShoppingCartProductQuantity(Number.parseInt(id), Number.parseInt($("#input-product-quantity").val()));
-
-        //TODO creer un toast comme demande dans les consignes
-        window.location.href = "./shopping-cart.html";
+        initShoppingCartBadge();
+        toastDialog();
     });
 }
 

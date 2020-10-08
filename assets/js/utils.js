@@ -119,3 +119,19 @@ function setShoppingCartProductQuantity(id, quantity)
     //Mettre a jour la liste d'epicerie dans le local storage
     localStorage.setItem(shoppingCartStorageName, JSON.stringify(shoppingCart));
 }
+
+function makeJQueryButtonGroup(buttons, makeSelectedFn, makeUnselectedFn)
+{
+    buttons.forEach((button) => {
+        var rest = buttons.filter((button2) => button2 !== button);
+
+        button.on("click", () => {
+            
+            makeSelectedFn(button);
+
+            rest.forEach( (restBtn) => {
+                makeUnselectedFn(restBtn);
+            })
+        });
+    });
+}
