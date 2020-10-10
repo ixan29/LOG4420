@@ -30,11 +30,11 @@
           class="btn-group-produits"
           id="product-categories"
         >
-          <button class="btn-products" id="btn-categ-cameras">Appareils photo</button>
-          <button class="btn-products" id="btn-categ-consoles">Consoles</button>
-          <button class="btn-products" id="btn-categ-screens">Écrans</button>
-          <button class="btn-products" id="btn-categ-computers">Ordinateurs</button>
-          <button class="btn-products selected" id="btn-categ-all">Tous les produits</button>
+          <button data-btn-group-name="group-filter" class="btn-products" onclick="setFilter(filterKeepCameras)">Appareils photo</button>
+          <button data-btn-group-name="group-filter" class="btn-products" onclick="setFilter(filterKeepConsoles)">Consoles</button>
+          <button data-btn-group-name="group-filter" class="btn-products" onclick="setFilter(filterKeepScreens)">Écrans</button>
+          <button data-btn-group-name="group-filter" class="btn-products" onclick="setFilter(filterKeepComputers)">Ordinateurs</button>
+          <button data-btn-group-name="group-filter" class="btn-products selected" onclick="setFilter(filterKeepAll)">Tous les produits</button>
         </div>
 
         <h1>Classement</h1>
@@ -42,9 +42,10 @@
           class="btn-group-produits"
           id="product-criteria"
         >
-          <button class="btn-products selected" id="btn-order-price">Prix (bas-haut)</button>
-          <button class="btn-products" id="btn-order-alpha">Nom (A-Z)</button>
-          <button class="btn-products" id="btn-order-alpha-reverse">Nom (Z-A)</button>
+          <button data-btn-group-name="group-sort" class="btn-products selected" onclick="setSort(sortPrice)">Prix (bas-haut)</button>
+          <button data-btn-group-name="group-sort" class="btn-products" onclick="setSort(sortPriceReverse)">Prix (haut-bas)</button>
+          <button data-btn-group-name="group-sort" class="btn-products" onclick="setSort(sortAlpha)">Nom (A-Z)</button>
+          <button data-btn-group-name="group-sort" class="btn-products" onclick="setSort(sortAlphaReverse)">Nom (Z-A)</button>
         </div>
 
       </aside>
@@ -65,7 +66,7 @@
     </p>
   </footer>
 
-  <script type="text/javascript" src="./assets/js/jquery-3.2.1.min.js"></script>
+  <script  type="text/javascript" src="./assets/js/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="./assets/js/shoppingCartBadge.js"></script>
   <script type="text/javascript" src="./assets/js/utils.js"></script>
   <script type="text/javascript" src="./assets/js/products.js"></script>

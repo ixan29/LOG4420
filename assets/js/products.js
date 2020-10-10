@@ -2,6 +2,10 @@ function sortPrice(products) {
     return products.sort((a,b) => a.price - b.price);
 }
 
+function sortPriceReverse(products) {
+    return products.sort((a,b) => b.price - a.price);
+}
+
 function sortAlpha(products) {
     return products.sort(function(a, b){
         if(a.name < b.name)
@@ -95,79 +99,39 @@ const initProducts = async() =>
     }
 }
 
+function setFilter(filterFn) {
+    selectedFilter = filterFn;
+    initProducts();
+}
+
+function setSort(sortFn) {
+    selectedSort = sortFn;
+    initProducts();
+}
+
 const initProductsPage = async() => {
 
     initProducts();
 
     makeJQueryButtonGroup(
-        [
-            $("#btn-categ-cameras"),
-            $("#btn-categ-consoles"),
-            $("#btn-categ-screens"),
-            $("#btn-categ-computers"),
-            $("#btn-categ-all")
-        ],
+        "group-filter",
         (buttonToSelect) => {
-            buttonToSelect.addClass("selected");
+            buttonToSelect.classList.add("selected");
         },
         (buttonToUnselect) => {
-            buttonToUnselect.removeClass("selected");
+            buttonToUnselect.classList.remove("selected");
         }
     );
 
-    $("#btn-categ-cameras").on("click", () => {
-        selectedFilter = filterKeepCameras;
-        initProducts();
-    });
-
-    $("#btn-categ-consoles").on("click", () => {
-        selectedFilter = filterKeepConsoles;
-        initProducts();
-    });
-
-    $("#btn-categ-screens").on("click", () => {
-        selectedFilter = filterKeepScreens;
-        initProducts();
-    });
-
-    $("#btn-categ-computers").on("click", () => {
-        selectedFilter = filterKeepComputers;
-        initProducts();
-    });
-
-    $("#btn-categ-all").on("click", () => {
-        selectedFilter = filterKeepAll;
-        initProducts();
-    });
-
     makeJQueryButtonGroup(
-        [
-            $("#btn-order-price"),
-            $("#btn-order-alpha"),
-            $("#btn-order-alpha-reverse")
-        ],
+        "group-sort",
         (buttonToSelect) => {
-            buttonToSelect.addClass("selected");
+            buttonToSelect.classList.add("selected");
         },
         (buttonToUnselect) => {
-            buttonToUnselect.removeClass("selected");
+            buttonToUnselect.classList.remove("selected");
         }
     )
-
-    $("#btn-order-price").on("click", () => {
-        selectedSort = sortPrice;
-        initProducts();
-    });
-
-    $("#btn-order-alpha").on("click", () => {
-        selectedSort = sortAlpha;
-        initProducts();
-    });
-
-    $("#btn-order-alpha-reverse").on("click", () => {
-        selectedSort = sortAlphaReverse;
-        initProducts();
-    });
 }
 
 window.addEventListener("load",initProductsPage,false);

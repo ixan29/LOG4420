@@ -135,3 +135,29 @@ function makeJQueryButtonGroup(buttons, makeSelectedFn, makeUnselectedFn)
         });
     });
 }
+
+function makeJQueryButtonGroup(name, selectFn, unselectFn)
+{
+    var buttonsNotList = $("button");
+
+    var buttons = [];
+
+    for(var idx=0 ; idx < buttonsNotList.length ; idx++)
+    {
+        var button = buttonsNotList[idx];
+
+        if( button.attributes.getNamedItem('data-btn-group-name')
+        &&  button.attributes.getNamedItem('data-btn-group-name').value === name)
+            buttons.push(button);
+    }
+
+    buttons.forEach(button => {
+        var rest = buttons.filter(btn=> btn !== button);
+
+        button.addEventListener("click", () => {
+            selectFn(button);
+
+            rest.forEach(btn => unselectFn(btn));
+        });
+    });
+}
