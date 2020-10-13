@@ -1,3 +1,7 @@
+import {} from "./jquery-3.2.1.min.js";
+import {getShoppingCart, parseJsonToHtml, getShoppingCartProductQuantity, setShoppingCartProductQuantity, clearShoppingCart} from "./utils.js";
+import {initShoppingCartBadge} from "./shoppingCartBadge.js";
+
 //Initialise la table des achats
 const initShoppingCartTable = async() =>
 {

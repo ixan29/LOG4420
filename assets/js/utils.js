@@ -3,7 +3,7 @@
 */
 
 //Convertit un objet js en html selon un protocole fait maison (vor un exemple dans products.js)
-function parseJsonToHtml(obj)
+export function parseJsonToHtml(obj)
 {
     if(Array.isArray(obj))
     {
@@ -48,7 +48,7 @@ retourne la liste d'achat sous la forme suivante :
     }
 ]
 */
-function getShoppingCart() {
+export function getShoppingCart() {
     var shoppingCart = JSON.parse(localStorage.getItem(shoppingCartStorageName));
 
     //initialiser la liste d'achat si elle n'est pas incluse dans le local storage
@@ -62,13 +62,13 @@ function getShoppingCart() {
 }
 
 //reinitialise la liste d'epicerie
-function clearShoppingCart() {
+export function clearShoppingCart() {
     localStorage.setItem(shoppingCartStorageName, "[]");
 }
 
 //retourne la quantite demandee dans liste d'epicerie d'un produit
 //a partir de son id
-function getShoppingCartProductQuantity(id)
+export function getShoppingCartProductQuantity(id)
 {
     var shoppingCart = getShoppingCart();
 
@@ -84,7 +84,7 @@ function getShoppingCartProductQuantity(id)
 }
 
 //Modifier la quantite d'un produit dans le panier a partir de son id
-function setShoppingCartProductQuantity(id, quantity)
+export function setShoppingCartProductQuantity(id, quantity)
 {
     //Recuillir la liste d'epicerie
     var shoppingCart = getShoppingCart();
@@ -120,23 +120,7 @@ function setShoppingCartProductQuantity(id, quantity)
     localStorage.setItem(shoppingCartStorageName, JSON.stringify(shoppingCart));
 }
 
-function makeJQueryButtonGroup(buttons, makeSelectedFn, makeUnselectedFn)
-{
-    buttons.forEach((button) => {
-        var rest = buttons.filter((button2) => button2 !== button);
-
-        button.on("click", () => {
-            
-            makeSelectedFn(button);
-
-            rest.forEach( (restBtn) => {
-                makeUnselectedFn(restBtn);
-            })
-        });
-    });
-}
-
-function makeJQueryButtonGroup(name, selectFn, unselectFn)
+export function makeJQueryButtonGroup(name, selectFn, unselectFn)
 {
     var buttonsNotList = $("button");
 

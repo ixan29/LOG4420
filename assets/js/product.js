@@ -1,3 +1,6 @@
+import {} from "./jquery-3.2.1.min.js";
+import {parseJsonToHtml, setShoppingCartProductQuantity} from "./utils.js";
+import {initShoppingCartBadge} from "./shoppingCartBadge.js";
 
 //Demarre l'animation toast du dialogue
 const toastDialog = () => {

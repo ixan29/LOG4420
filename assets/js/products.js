@@ -1,3 +1,7 @@
+import {} from "./jquery-3.2.1.min.js";
+import {makeJQueryButtonGroup, parseJsonToHtml} from "./utils.js";
+import {} from "./shoppingCartBadge.js";
+
 function sortPrice(products) {
     return products.sort((a,b) => a.price - b.price);
 }
