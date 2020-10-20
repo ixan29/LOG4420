@@ -145,3 +145,29 @@ export function makeJQueryButtonGroup(name, selectFn, unselectFn)
         });
     });
 }
+
+var products;
+
+export var getProducts = async() =>
+{
+    if(products === undefined)
+    {
+        var res = await fetch("http://localhost:8000/data/products.json");
+        products = await res.json();
+    }
+
+    return products;
+}
+
+export var getProduct = async(id) =>
+{
+    var products = await getProducts();
+
+    for(var idx=0; idx<products.length ; idx++)
+    {
+       if(products[idx].id === id)
+       {
+            return products[idx];
+       }
+    }
+}

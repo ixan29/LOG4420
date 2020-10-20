@@ -1,5 +1,5 @@
 import {} from "./jquery-3.2.1.min.js";
-import {makeJQueryButtonGroup, parseJsonToHtml} from "./utils.js";
+import {makeJQueryButtonGroup, parseJsonToHtml, getProducts} from "./utils.js";
 import {} from "./shoppingCartBadge.js";
 
 function sortPrice(products) {
@@ -61,7 +61,7 @@ let selectedFilter = filterKeepAll;
 const initProducts = async() =>
 {
     //Faire une requete au serveur pour recueillir les produits
-    const unsortedProducts = await (await fetch("http://localhost:8000/getProducts")).json();
+    const unsortedProducts = await getProducts();
     const products = selectedSort(selectedFilter(unsortedProducts));
 
     //Afficher le nombre de produits
@@ -117,6 +117,12 @@ const initProductsPage = async() => {
 
     initProducts();
 
+    $("#btn-categ-cameras").on("click", () => setFilter(filterKeepCameras));
+    $("#btn-categ-consoles").on("click", () => setFilter(filterKeepConsoles));
+    $("#btn-categ-screens").on("click", () => setFilter(filterKeepScreens));
+    $("#btn-categ-computers").on("click", () => setFilter(filterKeepComputers));
+    $("#btn-categ-all").on("click", () => setFilter(filterKeepAll));
+
     makeJQueryButtonGroup(
         "group-filter",
         (buttonToSelect) => {
@@ -126,6 +132,11 @@ const initProductsPage = async() => {
             buttonToUnselect.classList.remove("selected");
         }
     );
+
+    $("#btn-sort-price").on("click", () => setSort(sortPrice));
+    $("#btn-sort-price-reverse").on("click", () => setSort(sortPriceReverse));
+    $("#btn-sort-alpha").on("click", () => setSort(sortAlpha));
+    $("#btn-sort-alpha-reverse").on("click", () => setSort(sortAlphaReverse));
 
     makeJQueryButtonGroup(
         "group-sort",

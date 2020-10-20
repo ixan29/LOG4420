@@ -1,5 +1,5 @@
 import {} from "./jquery-3.2.1.min.js";
-import {parseJsonToHtml, setShoppingCartProductQuantity} from "./utils.js";
+import {getProduct, parseJsonToHtml, setShoppingCartProductQuantity} from "./utils.js";
 import {initShoppingCartBadge} from "./shoppingCartBadge.js";
 
 //Demarre l'animation toast du dialogue
@@ -13,10 +13,10 @@ const toastDialog = () => {
 const initProduct = async() =>
 {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+    const id = Number.parseInt(urlParams.get('id'));
 
     //faire une requete au serveur pour obtenir le produit
-    const product = await (await fetch("http://localhost:8000/getProduct?id="+id)).json();
+    const product = await getProduct(id);
 
     //Signaler si jamais le produit n'a pas ete trouve
     if(product.id === undefined)

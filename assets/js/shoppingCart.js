@@ -1,5 +1,5 @@
 import {} from "./jquery-3.2.1.min.js";
-import {getShoppingCart, parseJsonToHtml, getShoppingCartProductQuantity, setShoppingCartProductQuantity, clearShoppingCart} from "./utils.js";
+import {getShoppingCart, parseJsonToHtml, getShoppingCartProductQuantity, setShoppingCartProductQuantity, clearShoppingCart, getProduct} from "./utils.js";
 import {initShoppingCartBadge} from "./shoppingCartBadge.js";
 
 //Initialise la table des achats
@@ -55,7 +55,7 @@ const initShoppingCartTable = async() =>
     
     for(var idx=0 ; idx<shoppingCart.length ; idx++)
     {
-        var product = await (await fetch("http://localhost:8000/getProduct?id="+shoppingCart[idx].id)).json();
+        var product = await getProduct(shoppingCart[idx].id);
         product.quantity = shoppingCart[idx].quantity;
         products.push(product);
     };
