@@ -177,7 +177,7 @@ const initShoppingCartTable = async() =>
         $("#btn-increment-product-"+product.id).on("click", () =>
         {
             var quantity = getShoppingCartProductQuantity(product.id);
-            addShoppingCartProductQuantity(product.id, quantity+1);
+            addShoppingCartProductQuantity(product.id, 1);
 
             initShoppingCartBadge();
             initShoppingCartTable();
@@ -190,7 +190,7 @@ const initShoppingCartTable = async() =>
             
             if(quantity > 1)
             {
-                addShoppingCartProductQuantity(product.id, quantity-1);
+                addShoppingCartProductQuantity(product.id, -1);
 
                 initShoppingCartBadge();
                 initShoppingCartTable();
