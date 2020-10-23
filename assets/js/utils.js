@@ -146,6 +146,10 @@ export function makeJQueryButtonGroup(name, selectFn, unselectFn)
     });
 }
 
+export function getFormattedPrice(price) {
+    return price.toFixed(2).replace(".", ",");
+};
+
 var products;
 
 export var getProducts = async() =>
@@ -170,4 +174,20 @@ export var getProduct = async(id) =>
             return products[idx];
        }
     }
+}
+
+const clientStorageName = "INF4420-client";
+var confirmationNumber = 1;
+
+export function getClient()
+{
+    return JSON.parse(localStorage.getItem(clientStorageName));
+}
+
+export function setClient(client)
+{
+    client.confirmationNumber = confirmationNumber;
+    localStorage.setItem(clientStorageName, JSON.stringify(client));
+
+    confirmationNumber++;
 }

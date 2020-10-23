@@ -98,6 +98,7 @@ module.exports = {
         client.submitForm(config.elements.form);
         // Check if the URL is the same than before.
         client.assert.urlContains(config.url, "La formulaire ne doit pas être envoyé en cas d'erreur(s).");
+
         inputs.forEach(function(input) {
             return client.assert.containsText(`${input.id}-error`, errorMessages.required, `Le champ ${
                 input.id
@@ -123,6 +124,7 @@ module.exports = {
                     });
                 } else {
                     const statusMessage = `Le champ ${input.id} doit indiquer une erreur pour la valeur '${entry.value}'.`;
+                    console.log("error input: "+errorInput+$(errorInput)===undefined);
                     client.assert.containsText(errorInput, entry.errorMessage, statusMessage);
                 }
             });

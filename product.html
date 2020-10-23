@@ -39,12 +39,21 @@
 				<br>
 				<div id="div-prix-formulaire">
 					<p id="product-price"></p> <!--Le prix viendra ici-->
+				<!--	
 					<div id="div-formulaire">
 					<p>Quantité désirée:
-					<input id="input-product-quantity" class="form-control" type="number" min="0" step="1" value = "1">
+					<input id="input-product-quantity" class="form-control" type="number" min="1" step="1" value = "1">
 					<button id="add-to-cart-form" class="btn">Ajouter au panier</button>
 					</p>
 					</div>
+				-->
+					<form id="add-to-cart-form">
+						<label for="input-product-quantity">Quantité</label>
+						<input id="input-product-quantity" class="form-control" type="number" min="1" step="1" value = "1">
+						<button class="btn" title="Ajouter au panier" type="submit">
+							Ajouter
+						</button>
+					</form>
 				</div>
 			</div>
 		</div>

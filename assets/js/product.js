@@ -1,5 +1,5 @@
 import {} from "./jquery-3.2.1.min.js";
-import {getProduct, parseJsonToHtml, setShoppingCartProductQuantity} from "./utils.js";
+import {getFormattedPrice, getProduct, parseJsonToHtml, setShoppingCartProductQuantity} from "./utils.js";
 import {initShoppingCartBadge} from "./shoppingCartBadge.js";
 
 //Demarre l'animation toast du dialogue
@@ -19,7 +19,7 @@ const initProduct = async() =>
     const product = await getProduct(id);
 
     //Signaler si jamais le produit n'a pas ete trouve
-    if(product.id === undefined)
+    if(product === undefined)
     {
         $("main").text("");
         $("main").append("<h1>Page non trouvée!</h1>");
@@ -45,14 +45,17 @@ const initProduct = async() =>
     }
 
     //Ecrire le prix du produit
-    $('#product-price').append("Prix: " + product.price);
+    $('#product-price').append("Prix: " + getFormattedPrice(product.price));
 
     //Ajoute un evenement au bouton "ajouter au panier"
-    $("#add-to-cart-form").on("click", function() {
+    $("#add-to-cart-form").on("submit", function(e) {
 
         setShoppingCartProductQuantity(Number.parseInt(id), Number.parseInt($("#input-product-quantity").val()));
         initShoppingCartBadge();
         toastDialog();
+
+        //empecher le refresh
+        e.preventDefault();
     });
 }
 

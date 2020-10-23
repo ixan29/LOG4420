@@ -24,42 +24,42 @@
 <body>
   <main>
     <h1> Page de commande </h1>
-    <form action="confirmation.html">
-      <p> Veuillez compléter le formulaire ci-dessous. </p>
-      <h2> Contact </h2>
-        <div class="order-child-block">
-          <label for="prenom"> <b>Prénom</b> </label> <br>
-          <input class="order-input" id=firstname placeholder="Prénom" required> <br> <br>
-          <label for="email"> <b>Adresse courriel</b> </label> <br>
-          <input class="order-input" id=email type="email" placeholder="Adresse courriel" required>
-        </div>
-        <div class="order-child-block">
-          <label for="nom"> <b>Nom</b> </label> <br>
-          <input class="order-input" id=lastname placeholder="Nom" required> <br> <br>
-          <label for="tel"> <b>Numéro de téléphone</b> </label> <em></em> <br>
-          <input class="order-input" id=phone type="tel" placeholder="###-###-####" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h2> Paiement </h2>
-        <div class="order-child-block">
-          <label for="numcreditcard"> <b>Numéro de carte de crédit</b> </label> <br>
-          <input class="order-input" id=creditcard placeholder="xxxx-xxxx-xxxx-xxxx" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"> <br>
-        </div>
-        <div class="order-child-block">
-          <label for="dateexpcreditcard"> <b>Date d'expiration de la carte</b> </label> <br>
-          <input class="order-input" id=creditcardexpiry type="date" required> <br>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+    <p> Veuillez compléter le formulaire ci-dessous. </p>
+    <h2> Contact </h2>
+    <form name="order-form" action="confirmation.html">
+      <div class="order-child-block">
+        <label for="prenom"> <b>Prénom</b> </label> <br>
+        <input class="order-input" name="first-name" id="first-name" placeholder="Prénom"> <br> <br>
+        <label for="email"> <b>Adresse courriel</b> </label> <br>
+        <input class="order-input" name="email" id=email placeholder="Adresse courriel">
+      </div>
+      <div class="order-child-block">
+        <label for="nom"> <b>Nom</b> </label> <br>
+        <input class="order-input" name="last-name" id=last-name placeholder="Nom"> <br> <br>
+        <label for="tel"> <b>Numéro de téléphone</b> </label> <em></em> <br>
+        <input class="order-input" name="phone" id=phone placeholder="###-###-####">
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h2> Paiement </h2>
+      <div class="order-child-block">
+        <label for="numcreditcard"> <b>Numéro de carte de crédit</b> </label> <br>
+        <input class="order-input" name="creditcard" id="creditcard" placeholder="xxxx-xxxx-xxxx-xxxx"> <br>
+      </div>
+      <div class="order-child-block">
+        <label for="dateexpcreditcard"> <b>Date d'expiration de la carte</b> </label> <br>
+        <input class="order-input" name="creditcardexpiry" id="creditcardexpiry" placeholder="mm/aa"> <br>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
       <button type="submit" class ="btn" style="float:right">Payer</button>
     </form>
   </main>
@@ -71,7 +71,6 @@
     </p>
   </footer>
 
-  <script type="text/javascript" src="./assets/js/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="./assets/js/shoppingCartBadge.js"></script>
+  <script type="module" src="./assets/js/order.js"></script>
 </body>
 </html>

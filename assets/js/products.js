@@ -1,5 +1,5 @@
 import {} from "./jquery-3.2.1.min.js";
-import {makeJQueryButtonGroup, parseJsonToHtml, getProducts} from "./utils.js";
+import {makeJQueryButtonGroup, parseJsonToHtml, getProducts, getFormattedPrice} from "./utils.js";
 import {} from "./shoppingCartBadge.js";
 
 function sortPrice(products) {
@@ -12,10 +12,13 @@ function sortPriceReverse(products) {
 
 function sortAlpha(products) {
     return products.sort(function(a, b){
-        if(a.name < b.name)
+        var aName = a.name.toLowerCase();
+        var bName = b.name.toLowerCase();
+
+        if(aName < bName)
             return -1;
 
-        if(a.name > b.name)
+        if(aName > bName)
             return 1;
 
         return 0;
@@ -23,11 +26,14 @@ function sortAlpha(products) {
 }
 
 function sortAlphaReverse(products) {
-    return products.sort(function(a, b){
-        if(a.name < b.name)
+    return products.sort(function(a, b) {
+        var aName = a.name.toLowerCase();
+        var bName = b.name.toLowerCase();
+
+        if(aName < bName)
             return 1;
 
-        if(a.name > b.name)
+        if(aName > bName)
             return -1;
 
         return 0;
@@ -93,7 +99,7 @@ const initProducts = async() =>
                 {
                     element: "p",
                     class: "prix-produits",
-                    content: "Prix: "+product.price
+                    content: "Prix: "+getFormattedPrice(product.price)
                 }
             ]
         };

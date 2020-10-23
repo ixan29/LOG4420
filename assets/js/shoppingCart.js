@@ -1,5 +1,5 @@
 import {} from "./jquery-3.2.1.min.js";
-import {getShoppingCart, parseJsonToHtml, getShoppingCartProductQuantity, setShoppingCartProductQuantity, clearShoppingCart, getProduct} from "./utils.js";
+import {getShoppingCart, parseJsonToHtml, getShoppingCartProductQuantity, setShoppingCartProductQuantity, clearShoppingCart, getProduct, getFormattedPrice} from "./utils.js";
 import {initShoppingCartBadge} from "./shoppingCartBadge.js";
 
 //Initialise la table des achats
@@ -10,7 +10,7 @@ const initShoppingCartTable = async() =>
 
     if(shoppingCart.length === 0)
     {
-        $("#rest-main").text("Aucun produit dans le panier d'achat");
+        $("#rest-main").text("Aucun produit dans le panier.");
         return;
     }
 
@@ -61,10 +61,13 @@ const initShoppingCartTable = async() =>
     };
 
     products = products.sort((a, b) => {
-        if(a.name < b.name)
+        var aName = a.name.toLowerCase();
+        var bName = b.name.toLowerCase();
+
+        if(aName < bName)
             return -1;
 
-        if(a.name > b.name)
+        if(aName > bName)
             return 1;
 
         return 0;
@@ -101,8 +104,7 @@ const initShoppingCartTable = async() =>
                 {
                     //Prix unitaire
                     element: "td",
-                    class: "price",
-                    content: product.price + " $"
+                    content: getFormattedPrice(product.price) + " $"
                 },
                 {
                     //champ pour designer la quantite du produit
@@ -145,7 +147,8 @@ const initShoppingCartTable = async() =>
                 {
                     //Affiche le prix du produit (prixUnitaire*quantite)
                     element: "td",
-                    content: product.price * product.quantity + " $"
+                    class: "price",
+                    content: getFormattedPrice(product.price * product.quantity) + " $"
                 }
             ]
         }
@@ -207,7 +210,7 @@ const initShoppingCartTable = async() =>
     });
 
     //Afficher le prix total de la liste d'epicerie
-    $("#total-amount").append("Total : "+total+" $");
+    $("#total-amount").append("Total : "+getFormattedPrice(total)+" $");
 }
 
 //Initialise la page de la liste d'epicerie
