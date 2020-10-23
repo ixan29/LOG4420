@@ -84,7 +84,7 @@ export function getShoppingCartProductQuantity(id)
 }
 
 //Modifier la quantite d'un produit dans le panier a partir de son id
-export function setShoppingCartProductQuantity(id, quantity)
+export function addShoppingCartProductQuantity(id, quantity)
 {
     //Recuillir la liste d'epicerie
     var shoppingCart = getShoppingCart();
@@ -97,7 +97,7 @@ export function setShoppingCartProductQuantity(id, quantity)
         {
             if(shoppingCart[idx].id === id)
             {
-                shoppingCart[idx].quantity = quantity;
+                shoppingCart[idx].quantity += quantity;
                 return;
             }
         }
@@ -117,6 +117,17 @@ export function setShoppingCartProductQuantity(id, quantity)
     });
 
     //Mettre a jour la liste d'epicerie dans le local storage
+    localStorage.setItem(shoppingCartStorageName, JSON.stringify(shoppingCart));
+}
+
+export function removeShoppingCartProduct(id)
+{
+    var shoppingCart = getShoppingCart();
+
+    shoppingCart = shoppingCart.filter(function(productQt) {
+        return productQt.id != id;
+    });
+
     localStorage.setItem(shoppingCartStorageName, JSON.stringify(shoppingCart));
 }
 

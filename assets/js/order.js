@@ -1,6 +1,9 @@
 import {} from "./shoppingCartBadge.js";
 import {} from "./jquery-3.2.1.min.js";
 import {} from "./jquery.validate.min.js";
+import {} from "./additional-methods.min.js"
+import {} from "./messages_fr.js";
+
 import {setClient} from "./utils.js";
 
 function initOrderPage()
@@ -8,10 +11,10 @@ function initOrderPage()
     $.validator.addMethod(
         "regex",
         function(value, element, regexp) {
-            var re = new RegExp(regexp);
-            return this.optional(element) || re.test(value);
+            var match = value.match(regexp);
+            return match && value === match[0];
         },
-        "Please check your input."
+        ""
     );
 
     $("form[name='order-form']").validate({
@@ -38,7 +41,7 @@ function initOrderPage()
             },
             creditcardexpiry: {
                 required: true,
-                regex: /^(0[1-9]|1[0-2])\/([1-9]|[12][0-9]|3[01])/
+                regex: /^(0[1-9]|1[0-2])\/(0[1-9][12][0-9]|3[01])$/
             }
         },
         messages: {

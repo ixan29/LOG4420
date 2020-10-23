@@ -296,6 +296,10 @@ th:last-child, td:last-child {
     background-color: #ddf2fb;
 }
 
+#products-count {
+    text-align: right;
+}
+
 #products-list{
 	padding-bottom: 120pt;
 }
@@ -340,7 +344,7 @@ th:last-child, td:last-child {
     z-index: 1;
     left: 50%;
     bottom: 30px;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 5s;
 }
 
 @keyframes fadein {

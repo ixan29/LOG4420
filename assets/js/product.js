@@ -1,12 +1,12 @@
 import {} from "./jquery-3.2.1.min.js";
-import {getFormattedPrice, getProduct, parseJsonToHtml, setShoppingCartProductQuantity} from "./utils.js";
+import {getFormattedPrice, getProduct, parseJsonToHtml, addShoppingCartProductQuantity} from "./utils.js";
 import {initShoppingCartBadge} from "./shoppingCartBadge.js";
 
 //Demarre l'animation toast du dialogue
 const toastDialog = () => {
     $("#dialog").attr("class", "toast");
 
-    setTimeout( () => $("#dialog").attr("class", "invisible"), 3000);
+    setTimeout( () => $("#dialog").attr("class", "invisible"), 5500);
 }
 
 //Initialise la page du produit
@@ -50,7 +50,7 @@ const initProduct = async() =>
     //Ajoute un evenement au bouton "ajouter au panier"
     $("#add-to-cart-form").on("submit", function(e) {
 
-        setShoppingCartProductQuantity(Number.parseInt(id), Number.parseInt($("#input-product-quantity").val()));
+        addShoppingCartProductQuantity(Number.parseInt(id), Number.parseInt($("#input-product-quantity").val()));
         initShoppingCartBadge();
         toastDialog();
 

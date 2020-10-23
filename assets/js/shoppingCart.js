@@ -1,5 +1,5 @@
 import {} from "./jquery-3.2.1.min.js";
-import {getShoppingCart, parseJsonToHtml, getShoppingCartProductQuantity, setShoppingCartProductQuantity, clearShoppingCart, getProduct, getFormattedPrice} from "./utils.js";
+import {getShoppingCart, parseJsonToHtml, getShoppingCartProductQuantity, addShoppingCartProductQuantity, removeShoppingCartProduct, clearShoppingCart, getProduct, getFormattedPrice} from "./utils.js";
 import {initShoppingCartBadge} from "./shoppingCartBadge.js";
 
 //Initialise la table des achats
@@ -167,7 +167,7 @@ const initShoppingCartTable = async() =>
                 quantity = 1;
             }
             
-            setShoppingCartProductQuantity(product.id, quantity);
+            addShoppingCartProductQuantity(product.id, quantity);
 
             initShoppingCartBadge();
             initShoppingCartTable();
@@ -177,7 +177,7 @@ const initShoppingCartTable = async() =>
         $("#btn-increment-product-"+product.id).on("click", () =>
         {
             var quantity = getShoppingCartProductQuantity(product.id);
-            setShoppingCartProductQuantity(product.id, quantity+1);
+            addShoppingCartProductQuantity(product.id, quantity+1);
 
             initShoppingCartBadge();
             initShoppingCartTable();
@@ -190,7 +190,7 @@ const initShoppingCartTable = async() =>
             
             if(quantity > 1)
             {
-                setShoppingCartProductQuantity(product.id, quantity-1);
+                addShoppingCartProductQuantity(product.id, quantity-1);
 
                 initShoppingCartBadge();
                 initShoppingCartTable();
@@ -202,7 +202,7 @@ const initShoppingCartTable = async() =>
         {
             if(confirm("Voulez-vous supprimer le produit du panier?"))
             {
-                setShoppingCartProductQuantity(product.id, 0);
+                removeShoppingCartProduct(product.id, 0);
                 initShoppingCartBadge();
                 initShoppingCartTable();
             }
