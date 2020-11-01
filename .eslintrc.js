@@ -11,6 +11,7 @@ module.exports = {
         "node": true,
         "es6": true,
     },
+    "sourceType": "module",
     "extends": "eslint:recommended",
     "globals": {
         "Atomics": "readonly",

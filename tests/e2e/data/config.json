@@ -1,13 +1,13 @@
 {
   "confirmation": {
-    "url": "confirmation.html",
+    "url": "confirmation",
     "elements": {
       "confirmationNumber": "#confirmation-number",
       "name": "#name"
     }
   },
   "product": {
-    "url": "product.html?id=",
+    "url": "produits/",
     "elements": {
       "name": "#product-name",
       "image": "#product-image",
@@ -21,7 +21,7 @@
     }
   },
   "products": {
-    "url": "products.html",
+    "url": "produits",
     "elements": {
       "list": "#products-list",
       "categories": "#product-categories",
@@ -31,7 +31,7 @@
     }
   },
   "shoppingCart": {
-    "url": "shopping-cart.html",
+    "url": "panier",
     "elements": {
       "count": ".shopping-cart > .count",
       "totalAmount": "#total-amount",
@@ -44,7 +44,7 @@
     }
   },
   "order": {
-    "url": "order.html",
+    "url": "commande",
     "elements": {
       "totalAmount": "#total-amount",
       "form": "#order-form",

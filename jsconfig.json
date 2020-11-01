@@ -4,8 +4,7 @@
         "noImplicitAny": false,
         "removeComments": true,
         "sourceMap": false,
-        "checkJs": true,
-        "resolveJsonModule": true,
+        "checkJs": true
     },
     "include" : [
         "**/*.js"

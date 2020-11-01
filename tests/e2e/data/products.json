@@ -147,48 +147,5 @@
       "Trois ports HDMI",
       "Intègre la technologie <em>Chromecast</em>"
     ]
-  },
-  {
-    "id": 11,
-    "name": "Console Wii",
-    "price": 199.99,
-    "image": "wii.png",
-    "category": "consoles",
-    "description": "La Wii est une console de jeux vidéo de salon du fabricant japonais Nintendo. Console de la septième génération, tout comme la Xbox 360 et la PlayStation 3 avec lesquelles elle est en rivalité, elle est la console de salon la plus vendue de sa génération et a comme particularité d'utiliser un accéléromètre capable de détecter la position, l'orientation et les mouvements dans l'espace de la manette. (<a href='https://fr.wikipedia.org/wiki/Wii' target='_blank'>Wikipédia</a>)",
-    "features": [
-      "Microprocesseur Unit Broadway Power PC",
-      "Processeur graphique (AMD) ATI Hollywood cadencé à 243 MHz",
-      "Mémoire de 24 Mo de 1TSRAM + 64 Mo de 1TSRAM de MoSys Technology",
-      "Lecteur DVD Panasonic Matsushita Electronic",
-      "2 Prises USB 2.0, Sortie Vidéo/Audio YUV et Sortie RVB"
-    ]
-  },
-  {
-    "id": 12,
-    "name": "Console Xbox One",
-    "price": 399.99,
-    "image": "xbox.png",
-    "category": "consoles",
-    "description": "La Xbox One est une console de jeux vidéo de huitième génération développée par Microsoft. Dévoilée le 21 mai 2013, elle succède à la Xbox 360 et se place en concurrence frontale avec la PlayStation 4 de Sony, et plus indirectement avec la Wii U de Nintendo. Elle est disponible depuis le 22 novembre 2013 dans treize pays et depuis septembre 2014 dans vingt-six autres pays. D'abord uniquement commercialisée avec Kinect, Microsoft propose la console seule à partir du 9 juin 2014. (<a href='https://fr.wikipedia.org/wiki/Xbox_One' target='_blank'>Wikipédia</a>)",
-    "features": [
-      "CPU : x86 AMD 8 coeurs (1,6 GHz d'après les estimations)",
-      "GPU : 1,23 TFLOPS, a priori proche de l'AMD RADEON 7790",
-      "8 Go de RAM DDR3 à 68,3 Go/s",
-      "Lecteur Blu-ray",
-      "Disque dur 500 Go"
-    ]
-  },
-  {
-    "id": 13,
-    "name": "Manette Xbox 360",
-    "price": 29.99,
-    "image": "xbox-controller.png",
-    "category": "consoles",
-    "description": "Manette pouvant être branchée à une console Xbox 360 et un PC. Cette manette vous permettra de jouer à vos jeux vidéo préférés. De plus, cette manette est sans fil et comporte un port pour casque d'écoute.",
-    "features": [
-      "Manette sans fil 2.4GHz avec adapteur USB",
-      "Compacte et ergonomique",
-      "Port pour casque d'écoute pour Xbox Live"
-    ]
   }
 ]
