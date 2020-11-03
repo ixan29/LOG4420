@@ -1,37 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>OnlineShop - Panier</title>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
-</head>
+<%- include('../partials/head') %>
 <body>
-  <header>
-    <div class="header-container">
-      <div class="logo">
-        <a href="./index.html">
-          <img alt="logo" src="./assets/img/logo.svg" title="Accueil">
-        </a>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="./index.html">Accueil</a></li>
-          <li><a href="./products.html">Produits</a></li>
-          <li><a href="./contact.html">Contact</a></li>
-          <li>
-            <a class="shopping-cart" href="./shopping-cart.html" title="Panier">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-                <i class="fa fa-shopping-cart fa-stack-1x"></i>
-              </span>
-              <span class="count">3</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <%- include('../partials/header') %>
   <main>
     <article>
       <h1>Panier</h1>
@@ -55,9 +26,7 @@
       </div>
     </article>
   </main>
-  <footer>
-    <p>Par Antoine Béland et Konstantinos Lambrou-Latreille</p>
-  </footer>
+  <%- include('../partials/footer') %>
   <script type="module">
     import { initShoppingCartController } from "./assets/scripts/shopping-cart.controller.js";
     import { initProductController } from "./assets/scripts/products.controller.js"
