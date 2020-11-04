@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const HttpStatus = require('http-status-codes');
+const { OrderSchema } = require("../lib/db");
 
 const db = require("../lib/db");
 
@@ -19,26 +20,65 @@ function getType(obj)
     }
 }
 
-function checkModel(model, obj, errorMessage)
+function checkModel(model, obj, errorMessage, parentContext="")
 {
     var missing = "";
 
-    for(const elem in model)
+    for(const attrName in model)
     {
-        var type = getType(model[elem]);
+        const modelAttr = model[attrName];
+        const objAttr = obj[attrName];
 
-        if(obj[elem] === undefined)
-            missing += `\tMissing attribute ${elem}. It must be a ${type}\n`;
-        
-        if(obj[elem] === type)
-            missing += `\twrong type for ${elem}. It must be a ${type}\n`;
+        const modelType = getType(modelAttr);
+        const objType = getType(objAttr);
+
+        if(Array.isArray(modelAttr))
+        {
+            if(objAttr === undefined)
+                missing += `    Missing attribute ${parentContext}${attrName}. It must be an array\n`;
+            else
+            if(!Array.isArray(objAttr))
+                missing += `    wrong type for ${parentContext}${attrName}. It must be an array\n`;  
+            else
+            for(var i=0 ; i<modelAttr.length ; i++)
+            {
+                const newContext = `${parentContext}${attrName}[${i}].`;
+                missing += checkModel(modelAttr[i], objAttr[i], errorMessage, newContext);
+            }
+        }
+        else
+        if(modelAttr === "object")
+        {
+            if(objAttr === undefined)
+                missing += `    Missing attribute ${parentContext}${attrName}. It must be an object\n`;
+            else
+            if(!Array.isArray(objAttr))
+                missing += `    wrong type for ${parentContext}${attrName}. It must be an object\n`;  
+            else
+            {
+                const newContext = `${parentContext}${attrName}.`;
+                missing += checkModel(modelAttr, objAttr, errorMessage, newContext);
+            }
+        }
+        else
+        {
+
+            if(objAttr === undefined)
+                missing += `    Missing attribute ${parentContext}${attrName}. It must be a ${modelType}\n`;
+            else
+            if(objType !== modelType)
+                missing += `    wrong type for ${parentContext}${attrName}. It must be a ${modelType}\n`;   
+        }
     }
 
-    if(missing.length > 0)
-        throw new db.RequestError(
-            HttpStatus.BAD_REQUEST,
-            errorMessage + '\n' + missing
-        );
+    if(parentContext === "")
+        if(missing.length > 0)
+            throw new db.RequestError(
+                HttpStatus.BAD_REQUEST,
+                errorMessage + '\n' + missing
+            );
+
+    return missing;
 }
 
 function sendError(res, err)
@@ -318,6 +358,92 @@ router.delete("/api/shopping-cart", async (req, res) => {
         res
         .status(HttpStatus.NO_CONTENT)
         .send();
+    }
+    catch(err)
+    {
+        sendError(res, err);
+    }
+});
+
+router.get("/api/orders", async (req, res) => {
+
+    try
+    {
+        const orders = await db.getOrders();
+
+        res
+        .status(HttpStatus.OK)
+        .send(orders);
+    }
+    catch(err)
+    {
+        sendError(res, err);
+    }
+});
+
+router.get("/api/orders/:id", async (req, res) => {
+
+    try
+    {
+        const id = Number.parseInt(req.params.id);
+
+        const order = await db.getOrder(id);
+
+        res
+        .status(HttpStatus.OK)
+        .send(order);
+    }
+    catch(err)
+    {
+        sendError(res, err);
+    }
+});
+
+router.post("/api/orders", async (req, res) => {
+
+    try
+    {
+        const order = req.body;
+        checkModel(OrderSchema.obj, order, "the request order body is invalid");
+        await db.postOrder(order);
+
+        res
+        .status(HttpStatus.CREATED)
+        .send("");
+    }
+    catch(err)
+    {
+        sendError(res, err);
+    }
+});
+
+router.delete("/api/orders/:id", async (req, res) => {
+
+    try
+    {
+        const id = Number.parseInt(req.params.id);
+
+        const order = await db.deleteOrder(id);
+
+        res
+        .status(HttpStatus.NO_CONTENT)
+        .send(order);
+    }
+    catch(err)
+    {
+        sendError(res, err);
+    }
+});
+
+router.delete("/api/orders/", async (req, res) => {
+
+    try
+    {
+        const order = await db.deleteOrders();
+
+        res
+        .status(HttpStatus.NO_CONTENT)
+        .send(order);
     }
     catch(err)
     {
