@@ -81,6 +81,38 @@ function checkModel(model, obj, errorMessage, parentContext="")
     return missing;
 }
 
+function checkString(string, errorMessage)
+{
+    if( typeof(string) !== "string"
+    ||  string === "")
+        throw new db.RequestError(
+            HttpStatus.BAD_REQUEST,
+            errorMessage
+        );
+}
+
+function checkEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    
+    if(!re.test(String(email).toLowerCase()))
+        throw new db.RequestError(
+            HttpStatus.BAD_REQUEST,
+            "L'adresse couriel est invalide!"
+        );
+}
+
+
+
+function checkPhone(phone) {
+    const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+    
+    if(!re.test(phone))
+        throw new db.RequestError(
+            HttpStatus.BAD_REQUEST,
+            "Le numéro de téléphone est invalide!"
+        );
+}
+
 function sendError(res, err)
 {
   if(err.httpStatus)
@@ -132,11 +164,15 @@ router.get("/confirmation", (req, res) => {
 
 
 //api
+router.get("/api/session", async (req, res) => {
+    res.send(req.session);
+});
+
 router.get("/api/products", async (req, res) => {
     try
     {
-        const category = req.body.category;
-        const criteria = req.body.criteria;
+        const category = req.query.category;
+        const criteria = req.query.criteria;
 
         checkCategory(category);
         const sortPolicy = getSortPolicy(criteria);
@@ -176,6 +212,21 @@ router.post("/api/products", async (req, res) => {
     {
         const product = req.body;
         checkModel(db.ProductSchema.obj, product, "the request product body is invalid");
+        
+        checkString(product.name, "The name is invalid");
+        checkString(product.image, "The image is invalid");
+        checkCategory(product.category);
+        checkString(product.description, "The description is invalid");
+
+        if(!Array.isArray(product.features))
+            throw new db.RequestError(
+                HttpStatus.BAD_REQUEST,
+                "The features must be an array of strings"
+            );
+
+        for(const feature of product.features)
+            checkString(feature, "The following element in the features attribute is invalid: "+feature);
+
         await db.postProduct(product);
 
         res
@@ -245,9 +296,9 @@ function getSortPolicy(sort)
   {
     case undefined:
     case 'price-asc': return {price: 1};
-    case 'price-desc': return {price: -1};
+    case 'price-dsc': return {price: -1};
     case 'alpha-asc': return {name: 1};
-    case 'alpha-desc': return {name: -1};
+    case 'alpha-dsc': return {name: -1};
 
     default: throw new db.RequestError(
       HttpStatus.BAD_REQUEST,
@@ -256,15 +307,32 @@ function getSortPolicy(sort)
   }
 }
 
+function initShoppingCart(session)
+{
+    if(!Array.isArray(session.shoppingCart))
+        session.shoppingCart = [];
+}
+
+function findShoppingCartProduct(shoppingCart, productId)
+{
+    for(const shop of shoppingCart)
+        if(shop.productId === productId)
+            return shop;
+
+    return undefined;
+}
+
 router.get("/api/shopping-cart/", async (req, res) => {
 
     try
     {
-        const result = await db.getShoppingCart();
+        initShoppingCart(req.session);
+
+        //const result = await db.getShoppingCart();
 
         res
         .status(HttpStatus.OK)
-        .json(result);
+        .json(req.session.shoppingCart);
     }
     catch(err)
     {
@@ -276,8 +344,18 @@ router.get("/api/shopping-cart/:productId", async (req, res) => {
 
     try
     {
+        initShoppingCart(req.session);
         const id = Number.parseInt(req.params.productId);
-        const result = await db.getShoppingCartProduct(id);
+
+        //const result = await db.getShoppingCartProduct(id);
+
+        const result = findShoppingCartProduct(req.session.shoppingCart, id);
+
+        if(result === undefined)
+            throw new db.RequestError(
+                HttpStatus.NOT_FOUND,
+                "the shopping cart product with id "+id+" was not found"
+            );
 
         res
         .status(HttpStatus.OK)
@@ -289,17 +367,35 @@ router.get("/api/shopping-cart/:productId", async (req, res) => {
     };
 });
 
+const shoppingCartSchema = {
+    productId: Number,
+    quantity: Number
+};
+
 router.post("/api/shopping-cart", async (req, res) => {
 
     try
     {
+        initShoppingCart(req.session);
+
         const product = req.body;
-        checkModel(db.ShoppingCartSchema.obj, product, "the request shopping cart product body is invalid");
-        await db.postShoppingCartProduct(product);
-        
+        checkModel(shoppingCartSchema, product, "the request shopping cart product body is invalid");
+
+        await db.checkProductExists(product.productId, HttpStatus.BAD_REQUEST);
+
+        if(findShoppingCartProduct(req.session.shoppingCart, product.productId))
+            throw new db.RequestError(
+                HttpStatus.BAD_REQUEST,
+                "The product with id "+product.productId+" already exists in the shopping cart"
+            );
+
+        //const result = await db.postShoppingCartProduct(product);
+
+        req.session.shoppingCart.push(product);
+
         res
         .status(HttpStatus.CREATED)
-        .send();
+        .send("The product has been added");
     }
     catch(err)
     {
@@ -311,20 +407,40 @@ router.put("/api/shopping-cart/:productId", async (req, res) => {
 
     try
     {
+        initShoppingCart(req.session);
+
         const productId = Number.parseInt(req.params.productId);
         const quantity = Number.parseInt(req.body.quantity);
 
-        if(Number.isNaN(quantity))
-            throw {
-                httpStatus: HttpStatus.BAD_REQUEST,
-                what: "The quantity attribute of the body must be a positive integer"
+        if(Number.isNaN(quantity)
+        || quantity <= 0)
+            throw new db.RequestError(
+                HttpStatus.BAD_REQUEST,
+                "The quantity attribute of the body must be a positive integer"
+            );
+
+        for(const shop of req.session.shoppingCart)
+            if(shop.productId === productId)
+            {
+                shop.quantity = quantity;
+
+                res
+                .status(HttpStatus.NO_CONTENT)
+                .send();
+                return;
             }
 
+        /*
         await db.putShoppingCartProduct(productId, quantity);
-        
         res
         .status(HttpStatus.NO_CONTENT)
         .send();
+        */
+
+        throw new db.RequestError(
+            HttpStatus.NOT_FOUND,
+            "The product with id "+productId+" was not found in the shopping cart"
+        );
     }
     catch(err)
     {
@@ -336,8 +452,19 @@ router.delete("/api/shopping-cart/:productId", async (req, res) => {
 
     try
     {
+        initShoppingCart(req.session);
+
         const productId = Number.parseInt(req.params.productId);
-        await db.deleteShoppingCartProduct(productId);
+
+        if(findShoppingCartProduct(req.session.shoppingCart, productId) === undefined)
+            throw new db.RequestError(
+                HttpStatus.NOT_FOUND,
+                "The product with id "+productId+" was not found"
+            );
+
+        //await db.deleteShoppingCartProduct(productId);
+
+        req.session.shoppingCart = req.session.shoppingCart.filter(elem => elem.productId != productId);
 
         res
         .status(HttpStatus.NO_CONTENT)
@@ -353,7 +480,8 @@ router.delete("/api/shopping-cart", async (req, res) => {
 
     try
     {
-        await db.deleteShoppingCart();
+        req.session.shoppingCart = [];
+        //await db.deleteShoppingCart();
 
         res
         .status(HttpStatus.NO_CONTENT)
@@ -406,6 +534,11 @@ router.post("/api/orders", async (req, res) => {
         const order = req.body;
         checkModel(OrderSchema.obj, order, "the request order body is invalid");
         await db.postOrder(order);
+
+        checkString(order.firstName, "Le prénom est invalide");
+        checkString(order.lastName, "Le nom de famille est invalide");
+        checkEmail(order.email);
+        checkPhone(order.phone);
 
         res
         .status(HttpStatus.CREATED)
