@@ -5,8 +5,8 @@
     <%- include('../partials/header') %>
   <main>
     <article>
-      <h1>Votre commande est confirmée <span id="name"></span>!</h1>
-      <p>Votre numéro de confirmation est le <strong id="confirmation-number"></strong>.</p>
+      <h1>Votre commande est confirmée <span id="name"><%= order.firstName %> <%= order.lastName%></span>!</h1>
+      <p>Votre numéro de confirmation est le <strong id="confirmation-number"><%= order.id%></strong>.</p>
     </article>
   </main>
   <%- include('../partials/footer') %>

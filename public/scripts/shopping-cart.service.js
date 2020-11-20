@@ -154,8 +154,11 @@ export const removeAllItems = () => {
  * @private
  */
 function _getItemsFromAPI() {
+    /*
     if (!cache) {
         cache = fetch("/api/shopping-cart").then(res => res.json());
     }
     return cache;
+    */
+   return fetch("/api/shopping-cart").then(res => res.json());
 }

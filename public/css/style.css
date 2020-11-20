@@ -166,8 +166,9 @@ a:hover {
 }
 
 .shopping-cart-quantity {
-  width: 50;
+  width: 50%;
   float: left;
+  text-align: center;
 }
 
 #home-img {

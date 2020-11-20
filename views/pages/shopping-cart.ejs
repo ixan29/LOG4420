@@ -26,14 +26,12 @@
                 <th><%= product.name %></th>
                 <th><%= product.price %></th>
                 <th>
-                  <div style="text-align:center;">
-                    <button class="remove-quantity-button">-</button>
-                    <p class="quantity shopping-cart-quantity"></p>
-                    <button class="add-quantity-button">+</button>
-                  </div>
+                  <button class="remove-quantity-button">-</button>
+                  <div class="quantity shopping-cart-quantity"></div>
+                  <button class="add-quantity-button">+</button>
                 </th>
                 <th>
-                  <p class="price"></p>
+                  <div class="price"></div>
                 </th>
               </tr>
             <% }); %>

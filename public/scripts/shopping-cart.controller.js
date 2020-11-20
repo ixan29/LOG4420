@@ -5,8 +5,9 @@ const $ = window.$;
 import { addItem, getItem, getItemQuantity, getItemsCount, getTotalAmount, removeAllItems, removeItem, updateItemQuantity } from "./shopping-cart.service.js";
 import { formatPrice } from "./utils.js";
 
-function _updateCount() {
+export function _updateCount() {
     getItemsCount().then(itemsCount => {
+        console.log({itemsCount});
         const countElement = $(".shopping-cart").find(".count");
         if (itemsCount > 0) {
             countElement.addClass("visible").text(itemsCount);
@@ -114,5 +115,7 @@ export function initShoppingCartController() {
             });
         }
     });
+
+    _updateCount();
 }
   

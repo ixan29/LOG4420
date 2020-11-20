@@ -16,6 +16,7 @@ const orderForm = $("#order-form");
  * @private
  */
 function _createOrder(event) {
+
   event.preventDefault();
   if (!isFormValid(orderForm)) {
     return false;
@@ -42,7 +43,7 @@ function _createOrder(event) {
       return createOrder(order);
   }).then(
       removeAllItems
-  ).then(() => 
+  ).then(() =>
       orderForm.off("submit").trigger("submit")
   );
 

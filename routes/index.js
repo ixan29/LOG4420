@@ -205,7 +205,22 @@ router.get("/commande", (req, res) => {
 });
 
 router.post("/confirmation", (req, res) => {
-    res.render("pages/confirmation");
+
+    let order = req.session.lastOrder;
+
+    if(order == undefined)
+        order = {
+            firstName: "John",
+            lastName: "Smith",
+            id: 1234
+        };
+
+    res.render(
+        "pages/confirmation",
+        {
+            order
+        }
+    );
 });
 
 
@@ -368,8 +383,6 @@ router.get("/api/shopping-cart/", async (req, res) => {
     {
         initShoppingCart(req.session);
 
-        //const result = await db.getShoppingCart();
-
         res
         .status(HttpStatus.OK)
         .json(req.session.shoppingCart);
@@ -386,8 +399,6 @@ router.get("/api/shopping-cart/:productId", async (req, res) => {
     {
         initShoppingCart(req.session);
         const id = Number.parseInt(req.params.productId);
-
-        //const result = await db.getShoppingCartProduct(id);
 
         const result = findShoppingCartProduct(req.session.shoppingCart, id);
 
@@ -430,8 +441,6 @@ router.post("/api/shopping-cart", async (req, res) => {
                 "The product with id "+product.productId+" already exists in the shopping cart"
             );
 
-        //const result = await db.postShoppingCartProduct(product);
-
         req.session.shoppingCart.push(product);
 
         res
@@ -471,13 +480,6 @@ router.put("/api/shopping-cart/:productId", async (req, res) => {
                 .send();
                 return;
             }
-
-        /*
-        await db.putShoppingCartProduct(productId, quantity);
-        res
-        .status(HttpStatus.NO_CONTENT)
-        .send();
-        */
 
         throw new db.RequestError(
             HttpStatus.NOT_FOUND,
@@ -581,6 +583,7 @@ router.post("/api/orders", async (req, res) => {
         checkString(order.lastName, "Le nom de famille est invalide");
         checkEmail(order.email);
         checkPhone(order.phone);
+        req.session.lastOrder = order;
 
         res
         .status(HttpStatus.CREATED)
