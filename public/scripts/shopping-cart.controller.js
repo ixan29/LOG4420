@@ -37,10 +37,15 @@ function _renderEmptyView() {
 }
 
 export function initShoppingCartController() {
+
 // Initializes the "add to cart" form.
     $("#add-to-cart-form").on("submit", e => {
         e.preventDefault();
-        const productId = +$(e.target).attr("data-product-id");
+
+        const url = window.location.href;
+        const productId = +(url.substr(url.lastIndexOf('/')+1));
+
+        //const productId = +$(e.target).attr("data-product-id");
         addItem(
             productId,
             +$(e.target).find("input").val()
@@ -58,6 +63,7 @@ export function initShoppingCartController() {
 
     // Initializes the shopping cart table.
     $(".shopping-cart-table > tbody >  tr").each(function() {
+
         const rowElement = $(this);
         const productId = +rowElement.attr("data-product-id");
 

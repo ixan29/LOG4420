@@ -29,14 +29,33 @@
       <span class="right-header" id="products-count">13 produits</span>
       <h1>Produits</h1>
       <div class="products" id="products-list">
-        <div class="loading"></div>
+        <% products.forEach(product => {%>
+          <div class="product">
+            <a href="produits/<%= product.id%>">
+              <h2>
+                <%= product.name%>
+              </h2>
+              <img
+                src="/assets/img/<%= product.image%>"
+                alt="<%product.name%>"
+              >
+              <p class="price">
+                <%= product.price%>$
+              </p>
+            </a>
+          </div>
+        <% }); %>
       </div>
+      <!--
+      <div class="loading">
+      </div>
+    -->
     </article>
   </main>
   <%- include('../partials/footer') %>
   <script type="module">
-    import { initShoppingCartController } from "./assets/scripts/shopping-cart.controller.js";
-    import { initProductController } from "./assets/scripts/products.controller.js"
+    import { initShoppingCartController } from "/assets/scripts/shopping-cart.controller.js";
+    import { initProductController } from "/assets/scripts/products.controller.js"
     initShoppingCartController();
     initProductController();
   </script>

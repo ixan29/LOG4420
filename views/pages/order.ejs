@@ -6,7 +6,7 @@
   <main>
     <article>
       <h1>Commande</h1>
-      <form id="order-form" action="./confirmation.html" method="post">
+      <form id="order-form" action="/confirmation" method="post">
         <section>
           <h2>Contact</h2>
           <div class="row">
@@ -61,8 +61,8 @@
   </main>
   <%- include('../partials/footer') %>
   <script type="module">
-    import { initShoppingCartController } from "./assets/scripts/shopping-cart.controller.js";
-    import { initOrderController } from "./assets/scripts/order.controller.js"
+    import { initShoppingCartController } from "/assets/scripts/shopping-cart.controller.js";
+    import { initOrderController } from "/assets/scripts/order.controller.js"
     initShoppingCartController();
     initOrderController();
   </script>

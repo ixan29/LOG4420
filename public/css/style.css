@@ -158,6 +158,18 @@ a:hover {
 .table tr > td {
   padding: 10px;
 }
+
+.remove-quantity-button,
+.add-quantity-button {
+  width: 20%;
+  float:left;
+}
+
+.shopping-cart-quantity {
+  width: 50;
+  float: left;
+}
+
 #home-img {
   float: right;
   max-width: 40%;

@@ -18,18 +18,37 @@
             </tr>
           </thead>
           <tbody>
+            <% shoppingCart.forEach(product => { %>
+              <tr data-product-id="<%= product.id %>">
+                <th>
+                  <button class="remove-item-button">X</button>
+                </th>
+                <th><%= product.name %></th>
+                <th><%= product.price %></th>
+                <th>
+                  <div style="text-align:center;">
+                    <button class="remove-quantity-button">-</button>
+                    <p class="quantity shopping-cart-quantity"></p>
+                    <button class="add-quantity-button">+</button>
+                  </div>
+                </th>
+                <th>
+                  <p class="price"></p>
+                </th>
+              </tr>
+            <% }); %>
           </tbody>
         </table>
         <p class="shopping-cart-total">Total: <strong id="total-amount"></strong></p>
-        <a class="btn pull-right" href="./order.html">Commander <i class="fa fa-angle-double-right"></i></a>
+        <a class="btn pull-right" href="./commande">Commander <i class="fa fa-angle-double-right"></i></a>
         <button class="btn" id="remove-all-items-button"><i class="fa fa-trash-o"></i>&nbsp; Vider le panier</button>
       </div>
     </article>
   </main>
   <%- include('../partials/footer') %>
   <script type="module">
-    import { initShoppingCartController } from "./assets/scripts/shopping-cart.controller.js";
-    import { initProductController } from "./assets/scripts/products.controller.js"
+    import { initShoppingCartController } from "/assets/scripts/shopping-cart.controller.js";
+    import { initProductController } from "/assets/scripts/products.controller.js"
     initShoppingCartController();
     initProductController();
   </script>

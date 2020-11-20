@@ -101,8 +101,6 @@ function checkEmail(email) {
         );
 }
 
-
-
 function checkPhone(phone) {
     const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
     
@@ -137,28 +135,76 @@ router.get("/accueil", (req, res) => {
     res.render("pages/index");
 });
 
-router.get("/produits", (req, res) => {
-    res.render("pages/products");
+router.get("/produits", async (req, res) => {
+
+    const products = await db.getProducts();
+
+    res.render(
+        "pages/products",
+        {
+            products
+        }
+    );
 });
 
-router.get("/produits/:id", (req, res) => {
-    const id = req.query.id;
-    res.render("pages/products/"+id);
+router.get("/produits/:id", async (req, res) => {
+
+    try
+    {
+        const id = Number.parseInt(req.params.id);
+        const product = await db.getProduct(id);
+        res.render(
+            "pages/product",
+            {
+                product
+            }
+        );
+    }
+    catch(err)
+    {
+        res.render("pages/productNotFound", {});
+    }
 });
 
 router.get("/contact", (req, res) => {
     res.render("pages/contact");
 });
 
-router.get("/panier", (req, res) => {
-    res.render("pages/shopping-cart");
+function initShoppingCart(session)
+{
+    if(!Array.isArray(session.shoppingCart))
+        session.shoppingCart = [];
+}
+
+router.get("/panier", async (req, res) => {
+
+    initShoppingCart(req.session);
+    const cart = req.session.shoppingCart;
+
+    const products = await db.getProducts(undefined, getSortPolicy('alpha-asc'));
+
+    for(const product of products)
+    {
+        for(const shop of cart)
+            if(product.id === shop.productId)
+             product.quantity = shop.quantity;
+    }
+
+    const shoppingCart = products.filter(product => product.quantity !== undefined);
+
+    res.render(
+        "pages/shopping-cart",
+        {
+            shoppingCart
+        }
+    );
 });
 
 router.get("/commande", (req, res) => {
     res.render("pages/order");
 });
 
-router.get("/confirmation", (req, res) => {
+router.post("/confirmation", (req, res) => {
     res.render("pages/confirmation");
 });
 
@@ -307,12 +353,6 @@ function getSortPolicy(sort)
   }
 }
 
-function initShoppingCart(session)
-{
-    if(!Array.isArray(session.shoppingCart))
-        session.shoppingCart = [];
-}
-
 function findShoppingCartProduct(shoppingCart, productId)
 {
     for(const shop of shoppingCart)
@@ -379,6 +419,7 @@ router.post("/api/shopping-cart", async (req, res) => {
         initShoppingCart(req.session);
 
         const product = req.body;
+        console.log(JSON.stringify(product));
         checkModel(shoppingCartSchema, product, "the request shopping cart product body is invalid");
 
         await db.checkProductExists(product.productId, HttpStatus.BAD_REQUEST);
@@ -399,6 +440,7 @@ router.post("/api/shopping-cart", async (req, res) => {
     }
     catch(err)
     {
+        console.log(JSON.stringify(err));
         sendError(res, err);
     }
 });

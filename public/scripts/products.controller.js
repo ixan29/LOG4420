@@ -48,7 +48,7 @@ function _createProductElement(product) {
     }
 
 
-export function initProductControler() {
+export function initProductController() {
     // Initialize the products view.
     const filters = {
         category: "all",
