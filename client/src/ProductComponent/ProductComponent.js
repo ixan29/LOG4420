@@ -6,6 +6,25 @@ import {useParams} from "react-router-dom";
 import {imageMap} from "../ProductsComponent/ProductImageLoader";
 import { useEffect, useState } from 'react';
 
+function addproduct(productId, quantity)
+{
+    /*
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "localhost:4000/api/shopping-cart", true);
+    xhr.withCredentials = true;
+    xhr.send(JSON.stringify({ productId: productId, quantity: quantity }));
+    */
+
+    return fetch("http://localhost:4000/api/shopping-cart", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId: productId, quantity: quantity }),
+        credentials: "include"
+    });
+}
+
 export function ProductComponent() {
     document.title="OnlineShop - Produit";
     const { id } = useParams();
@@ -62,7 +81,7 @@ export function ProductComponent() {
                         <form className="pull-right" id="add-to-cart-form">
                             <label htmlFor="product-quantity">Quantité:</label>
                             <input className="form-control" type="number" defaultValue="1" min="1" id="product-quantity"/>
-                            <button className="btn" title="Ajouter au panier" type="submit">
+                            <button className="btn" title="Ajouter au panier" type="submit" onClick={() => addproduct(+id, 1)}>
                                 <i className="fa fa-cart-plus"></i>&nbsp; Ajouter
                             </button>
                         </form>

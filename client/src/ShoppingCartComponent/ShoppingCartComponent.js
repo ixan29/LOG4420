@@ -3,9 +3,16 @@ import {Header} from "../_Common/Header.js"
 import {Footer} from "../_Common/Footer.js"
 import {Link} from "react-router-dom"
 import { formatPrice } from "../utils.js"
+import { useEffect, useState } from 'react';
+import { getShoppingCartItems } from "./ShoppingCartUtils.js";
+
 export function ShoppingCartComponent() {
     document.title="OnlineShop - Panier";
-    const ordersItems = [];
+
+    const [ordersItems, setOrderItems] = useState([]);
+    
+    useEffect( () => getShoppingCartItems().then(setOrderItems), []);
+    
     return (
         <div>
             <Header/>
@@ -37,7 +44,7 @@ export function ShoppingCartComponent() {
                                     <div className="col"><button className="add-quantity-button" title="Ajouter"><i className="fa fa-plus"></i></button></div>
                                     </div>
                                 </td>
-                                <td className="price">{formatPrice(item.total)}</td>
+                                <td className="price">{formatPrice(item.quantity * item.product.price)}</td>
                             </tr>
                         )}
                         </tbody>

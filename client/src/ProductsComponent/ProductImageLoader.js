@@ -27,5 +27,5 @@ export const imageMap = {
     "wii.png" : wii,
     "xbox-controller.png" : xboxcontroller,
     "xbox.png" : xbox,
-    "apple-tv": appletv
+    "apple-tv.png": appletv
 };
