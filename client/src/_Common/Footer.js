@@ -2,7 +2,7 @@
 export function Footer() {
   return (
     <footer>
-        <p>Par Félix Brunet</p>
+        <p>Par Ivan Molodtsov et Antoine Balayssac</p>
     </footer>
   );
 }

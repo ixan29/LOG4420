@@ -4,14 +4,23 @@ import {Footer} from "../_Common/Footer.js"
 import {Link} from "react-router-dom"
 import { formatPrice } from "../utils.js"
 import { useEffect, useState } from 'react';
-import { getShoppingCartItems } from "./ShoppingCartUtils.js";
+import { getShoppingCartItems, setShoppingCartItemQuantity, deleteShoppingCartItem, deleteShoppingCart } from "./ShoppingCartUtils.js";
 
 export function ShoppingCartComponent() {
     document.title="OnlineShop - Panier";
 
-    const [ordersItems, setOrderItems] = useState([]);
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true);
     
-    useEffect( () => getShoppingCartItems().then(setOrderItems), []);
+    useEffect( () => {
+        if(loading)
+        {
+            getShoppingCartItems().then(res => {
+                setItems(res);
+                setLoading(false);
+            });
+        }
+    });
     
     return (
         <div>
@@ -31,17 +40,45 @@ export function ShoppingCartComponent() {
                             </tr>
                         </thead>
                         <tbody>
-                        {ordersItems.map(item => 
+                        {items.map(item => 
                             <tr>
-                                <td><button className="remove-item-button" title="Supprimer"><i className="fa fa-times"></i></button></td>
-                                <td><Link href={`./product/${item.product.id}`}>{item.product.name}</Link></td>
+                                <td>
+                                    <button className="remove-item-button" title="Supprimer" onClick={
+                                        (e) => {
+                                            if(window.confirm("Voulez-vous retirer le produit suivant? : "+item.product.name)) {
+                                                deleteShoppingCartItem(item.product.id);
+                                                setLoading(true);
+                                            }
+                                        }
+                                    }>
+                                        <i className="fa fa-times"></i>
+                                    </button>
+                                </td>
+                                <td><Link href={`/product/${item.product.id}`}>{item.product.name}</Link></td>
                                 <td>{formatPrice(item.product["price"])}</td>
                                 <td>
                                     <div className="row">
-                                    <div className="col"><button className="remove-quantity-button" title="Retirer" disabled={item.quantity <= 1 ? "disabled" : ""}>
-                                    <i className="fa fa-minus"></i></button></div>
+                                    <div className="col">
+                                        <button className="remove-quantity-button" title="Retirer" disabled={item.quantity <= 1 ? "disabled" : ""} onClick={
+                                            (e) => {
+                                                setShoppingCartItemQuantity(item.product.id, item.quantity-1);
+                                                setLoading(true);
+                                            }
+                                        }>
+                                        <i className="fa fa-minus"></i>
+                                        </button>
+                                    </div>
                                     <div className="col quantity">{item.quantity}</div>
-                                    <div className="col"><button className="add-quantity-button" title="Ajouter"><i className="fa fa-plus"></i></button></div>
+                                    <div className="col">
+                                        <button className="add-quantity-button" title="Ajouter" onClick={
+                                            (e) => {
+                                                setShoppingCartItemQuantity(item.product.id, item.quantity+1);
+                                                setLoading(true);
+                                            }
+                                        }>
+                                        <i className="fa fa-plus"></i>
+                                        </button>
+                                    </div>
                                     </div>
                                 </td>
                                 <td className="price">{formatPrice(item.quantity * item.product.price)}</td>
@@ -50,8 +87,15 @@ export function ShoppingCartComponent() {
                         </tbody>
                     </table>
                     <p className="shopping-cart-total">Total: <strong id="total-amount"></strong></p>
-                    <a className="btn pull-right" href="./order.html">Commander <i className="fa fa-angle-double-right"></i></a>
-                    <button className="btn" id="remove-all-items-button"><i className="fa fa-trash-o"></i>&nbsp; Vider le panier</button>
+                    <a className="btn pull-right" href="./order">Commander <i className="fa fa-angle-double-right"></i></a>
+                    <button className="btn" id="remove-all-items-button" onClick={
+                        (e) => {
+                            if(window.confirm("Voulez-vous retirer tous les produits du panier?")) {
+                                deleteShoppingCart();
+                                setLoading(true);
+                            }
+                        }
+                    }><i className="fa fa-trash-o"></i>&nbsp; Vider le panier</button>
                 </div>
             </article>
         </main>

@@ -50,6 +50,8 @@ self.getItem = productId => {
  */
 self.addItem = item => {
 
+  console.log({item});
+
   const deferred = Q.defer();
 
   let isValid = MODEL.every(property => property in item);
@@ -70,7 +72,6 @@ self.addItem = item => {
     if (result.data !== null && !itemFound) {
       items.push(item);
       deferred.resolve(false);
-      console.log(items.length);
     } else {
       deferred.resolve(true);
     }

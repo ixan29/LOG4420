@@ -1,8 +1,36 @@
 import { Link } from "react-router-dom";
 import logo from "../img/logo.svg";
+import { useEffect, useState } from 'react';
+import { getShoppingCartItems } from "../ShoppingCartComponent/ShoppingCartUtils";
+
+export var reloadHeader = undefined;
+
+function getCount(items)
+{
+    var count = 0;
+
+    for(const item of items)
+        count += item.quantity;
+
+    return count;
+}
+
 export function Header(prop) {
   
-    const cartCount = 3;
+    const [cartCount, setCartCount] = useState(0);
+    const [loading, setLoading] = useState(true);
+    
+    reloadHeader = () => setLoading(true);
+
+    useEffect( () => {
+        if(loading)
+        {
+            getShoppingCartItems().then(res => {
+                setCartCount(getCount(res));
+                setLoading(false);
+            });
+        }
+    });
     const currentActive = prop.currentActive;
     return (
         <header>
@@ -23,7 +51,10 @@ export function Header(prop) {
                                 <i className="fa fa-circle fa-stack-2x fa-inverse"></i>
                                 <i className="fa fa-shopping-cart fa-stack-1x"></i>
                             </span>
-                            <span className="count">{cartCount}</span>
+                            <span
+                                className="count"
+                                style={{display: (cartCount>0 ? "block" : "none")}}
+                            >{cartCount}</span>
                         </Link>
                     </li>
                 </ul>

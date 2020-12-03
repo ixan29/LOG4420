@@ -25,6 +25,7 @@ router.get("/:id", (req, res) => {
 
 // Adds a new item in the shopping cart.
 router.post("/", (req, res) => {
+
   shoppingCartManager.addItem(req.body).done(err => {
     if (err) {
       res.status(400).send();
